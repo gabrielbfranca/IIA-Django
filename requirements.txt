@@ -4,3 +4,8 @@ requests
 notebook
 pandas
 python-dotenv
+datasets
+PILLOW
+transformers
+scikit-learn
+jupyter
