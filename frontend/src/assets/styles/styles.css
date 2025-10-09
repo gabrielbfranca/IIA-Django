@@ -1,0 +1,17 @@
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mainCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+}
+.button-group {
+  display: flex;
+  gap: 2rem; /* Adjust space between buttons */
+  justify-content: center;
+  margin-top: 1.5rem;
+}
