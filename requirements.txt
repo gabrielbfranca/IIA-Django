@@ -9,3 +9,5 @@ PILLOW
 transformers
 scikit-learn
 jupyter
+huggingface_hub
+numpy
