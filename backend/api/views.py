@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 from django.http import JsonResponse
-from ..ml_models.recommender import get_recommender
+from backend.ml_models.model_loader import get_recommender
 
 
 class ArtworkListView(APIView):

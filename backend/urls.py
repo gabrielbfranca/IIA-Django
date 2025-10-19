@@ -16,17 +16,10 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
-from api.views import (
-    ArtworkListView,
-    ArtworkDetailView,
-    RecommendationView,
-    ModelStatsView,
-)
+from django.urls import path, include
 
 urlpatterns = [
-    path("artworks/", ArtworkListView.as_view(), name="artwork-list"),
-    path("artworks/<int:pk>/", ArtworkDetailView.as_view(), name="artwork-detail"),
-    path("recommendations/", RecommendationView.as_view(), name="recommendations"),
-    path("model-stats/", ModelStatsView.as_view(), name="model-stats"),
+    path("admin/", admin.site.urls),
+    path("api/users/", include("backend.users.urls")),
+    path("api/", include("backend.api.urls")),
 ]

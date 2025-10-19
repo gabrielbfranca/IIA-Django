@@ -20,7 +20,7 @@ class ArtworkRecommender:
     def _load_model(self):
         """Load pre-trained model files"""
         try:
-            # Model files path
+            # Look for models in the models directory
             models_path = os.path.join(settings.BASE_DIR.parent, "models")
 
             # Load vectorizer
@@ -42,7 +42,10 @@ class ArtworkRecommender:
 
         except Exception as e:
             print(f"❌ Error loading model: {e}")
-            raise
+            # Create dummy data for development
+            self.metadata = []
+            self.model_info = {"n_artworks": 0}
+            print("⚠️ Using dummy data - train and save your model first!")
 
     def get_recommendations(self, artwork_id, user_likes=None, n_recommendations=10):
         """Get artwork recommendations"""
@@ -83,7 +86,7 @@ class ArtworkRecommender:
 
     def get_model_stats(self):
         """Get model statistics"""
-        return self.model_info
+        return self.model_info if self.model_info else {"n_artworks": 0}
 
 
 # Create singleton instance

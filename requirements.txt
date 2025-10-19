@@ -11,3 +11,5 @@ scikit-learn
 jupyter
 huggingface_hub
 numpy
+django-cors-headers
+scipy
