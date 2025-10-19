@@ -1,0 +1,9 @@
+{
+  "n_artworks": 10000,
+  "n_features": 48,
+  "vocabulary_size": 48,
+  "unique_artists": 24,
+  "unique_genres": 11,
+  "unique_styles": 16,
+  "model_version": "1.0"
+}
