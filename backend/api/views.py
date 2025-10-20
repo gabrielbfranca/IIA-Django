@@ -86,44 +86,69 @@ class RecommendationView(APIView):
 
             # Get request data
             artwork_id = request.data.get("artwork_id")
+            user_id = request.data.get("user_id")  # Optional user ID
             user_likes = request.data.get("user_likes", [])
             n_recommendations = request.data.get("n_recommendations", 10)
 
-            if artwork_id is None:
+            # Validate inputs - now supports both artwork_id and user_id scenarios
+            if artwork_id is None and user_id is None:
                 return Response(
-                    {"error": "artwork_id is required"},
+                    {"error": "Either artwork_id or user_id is required"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            # Get recommendations
+            # Get recommendations with enhanced utility matrix support
             recommendations = recommender.get_recommendations(
-                artwork_id=int(artwork_id),
+                artwork_id=int(artwork_id) if artwork_id is not None else None,
+                user_id=int(user_id) if user_id is not None else None,
                 user_likes=user_likes,
-                n_recommendations=n_recommendations,
+                n_recommendations=n_recommendations
             )
+
+            if not recommendations:
+                return Response(
+                    {
+                        "message": "No recommendations found",
+                        "artwork_id": artwork_id,
+                        "user_id": user_id,
+                        "recommendations": [],
+                        "count": 0,
+                    }
+                )
 
             # Enhance recommendations with real WikiArt data
             enhanced_recommendations = wikiart_client.enrich_artworks_batch(
                 recommendations
             )
 
-            # Enhance source artwork
-            source_artwork = recommender.get_artwork_by_id(int(artwork_id))
-            enhanced_source = (
-                wikiart_client.enrich_artwork_metadata(source_artwork)
-                if source_artwork
-                else None
-            )
+            # Prepare response
+            response_data = {
+                "recommendations": enhanced_recommendations,
+                "count": len(recommendations),
+            }
 
-            return Response(
-                {
-                    "source_artwork": enhanced_source,
-                    "recommendations": enhanced_recommendations,
-                    "count": len(recommendations),
-                }
-            )
+            # Add source artwork if artwork_id was provided
+            if artwork_id is not None:
+                source_artwork = recommender.get_artwork_by_id(int(artwork_id))
+                enhanced_source = (
+                    wikiart_client.enrich_artwork_metadata(source_artwork)
+                    if source_artwork
+                    else None
+                )
+                response_data["source_artwork"] = enhanced_source
+                response_data["artwork_id"] = artwork_id
+
+            # Add user context
+            if user_id is not None:
+                response_data["user_id"] = user_id
+                # Get user preferences for debugging
+                user_preferences = recommender.get_user_preferences(int(user_id))
+                response_data["user_preferences_count"] = len(user_preferences)
+
+            return Response(response_data)
 
         except Exception as e:
+            print(f"🚨 RecommendationView Error: {e}")
             return Response(
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )

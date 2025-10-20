@@ -12,16 +12,16 @@
   },
   "utility_matrix_stats": {
     "total_interactions": 600,
-    "unique_users": 54,
-    "unique_artworks": 580,
-    "like_rate": 0.5433333333333333,
+    "unique_users": 53,
+    "unique_artworks": 447,
+    "like_rate": 0.5316666666666666,
     "academic_requirement": "500+ lines",
     "requirement_met": true
   },
   "files_generated": {
     "utility_matrix.csv": "600 interactions",
-    "utility_matrix_pivot.csv": "54x580 matrix",
-    "user_statistics.csv": "54 users",
-    "artwork_statistics.csv": "580 artworks"
+    "utility_matrix_pivot.csv": "53x447 matrix",
+    "user_statistics.csv": "53 users",
+    "artwork_statistics.csv": "447 artworks"
   }
 }
