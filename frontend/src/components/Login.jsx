@@ -1,30 +1,41 @@
 import React, { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { login, error } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    if (email === "admin@example.com" && password === "password") {
-      alert("Login successful!");
-    } else {
-      alert("Invalid credentials");
+    setLoading(true);
+
+    try {
+      await login({ username, password });
+      navigate("/home");
+    } catch (err) {
+      console.error("Login failed:", err);
+    } finally {
+      setLoading(false);
     }
-    //authenticate and redirect to homePage
   };
 
   return (
     <div className="center">
+      <h2>Login</h2>
+      {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>
-            Email:
+            Username:
             <input
               type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
             />
           </label>
         </div>
@@ -35,11 +46,17 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </label>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
+      <p>
+        Não tem conta? <a href="/signup">Cadastre-se</a>
+      </p>
     </div>
   );
 }

@@ -24,18 +24,18 @@ class ArtworkRecommender:
             models_path = os.path.join(settings.BASE_DIR.parent, "models")
 
             # Load vectorizer
-            with open(f"{models_path}/vectorizer.pkl", "rb") as f:
+            with open(f"{models_path}\vectorizer.pkl", "rb") as f:
                 self.vectorizer = pickle.load(f)
 
             # Load TF-IDF matrix
-            self.tfidf_matrix = load_npz(f"{models_path}/tfidf_matrix.npz")
+            self.tfidf_matrix = load_npz(f"{models_path}\tfidf_matrix.npz")
 
             # Load metadata
-            with open(f"{models_path}/metadata.json", "r") as f:
+            with open(f"{models_path}\metadata.json", "r") as f:
                 self.metadata = json.load(f)
 
             # Load model info
-            with open(f"{models_path}/model_info.json", "r") as f:
+            with open(f"{models_path}\model_info.json", "r") as f:
                 self.model_info = json.load(f)
 
             print(f"✅ Model loaded: {len(self.metadata)} artworks")

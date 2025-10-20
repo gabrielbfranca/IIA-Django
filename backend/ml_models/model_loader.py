@@ -20,22 +20,49 @@ class ArtworkRecommender:
     def _load_model(self):
         """Load pre-trained model files"""
         try:
-            # Look for models in the models directory
-            models_path = os.path.join(settings.BASE_DIR.parent, "models")
+            # DEBUG: Check BASE_DIR path
+            print(f"Django BASE_DIR: {settings.BASE_DIR}")
+            print(f"Django BASE_DIR.parent: {settings.BASE_DIR.parent}")
+
+            # Look for models in the models directory (relative to project root)
+            # Direct path construction since we know the structure
+            # BASE_DIR points to backend/, we need to go to parent for project root
+
+            # More robust path detection
+            current_file_dir = os.path.dirname(os.path.abspath(__file__))
+            # This file is in: D:\Projetos\IIA-Django\backend\ml_models\model_loader.py
+            # So go up 2 levels: ml_models -> backend -> project_root
+            project_root = os.path.dirname(os.path.dirname(current_file_dir))
+            models_path = os.path.join(project_root, "models")
+
+            print(f"Looking for models in: {models_path}")  # Debug log
+
+            # Check if models directory exists
+            if os.path.exists(models_path):
+                print(f"✅ Models directory exists")
+                print(f"Files in models directory: {os.listdir(models_path)}")
+            else:
+                print(f"❌ Models directory does not exist: {models_path}")
+                raise FileNotFoundError(f"Models directory not found: {models_path}")
 
             # Load vectorizer
-            with open(f"{models_path}/vectorizer.pkl", "rb") as f:
+            vectorizer_path = os.path.join(models_path, "vectorizer.pkl")
+            print(f"Loading vectorizer from: {vectorizer_path}")
+            with open(vectorizer_path, "rb") as f:
                 self.vectorizer = pickle.load(f)
 
             # Load TF-IDF matrix
-            self.tfidf_matrix = load_npz(f"{models_path}/tfidf_matrix.npz")
+            matrix_path = os.path.join(models_path, "tfidf_matrix.npz")
+            self.tfidf_matrix = load_npz(matrix_path)
 
             # Load metadata
-            with open(f"{models_path}/metadata.json", "r") as f:
+            metadata_path = os.path.join(models_path, "metadata.json")
+            with open(metadata_path, "r") as f:
                 self.metadata = json.load(f)
 
             # Load model info
-            with open(f"{models_path}/model_info.json", "r") as f:
+            model_info_path = os.path.join(models_path, "model_info.json")
+            with open(model_info_path, "r") as f:
                 self.model_info = json.load(f)
 
             print(f"✅ Model loaded: {len(self.metadata)} artworks")
