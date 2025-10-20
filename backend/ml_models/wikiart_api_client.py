@@ -38,7 +38,7 @@ class WikiArtAPIClient:
             "uploads8.wikiart.org",
         ]
 
-        # Real WikiArt artist mappings (from dataset documentation)
+       
         self.artists = {
             "1": {"name": "Vincent van Gogh", "url_name": "vincent-van-gogh"},
             "2": {"name": "Pablo Picasso", "url_name": "pablo-picasso"},
@@ -69,7 +69,6 @@ class WikiArtAPIClient:
             "24": {"name": "Caravaggio", "url_name": "caravaggio"},
         }
 
-        # Real WikiArt genres (from dataset)
         self.genres = {
             "1": "portrait",
             "2": "landscape",
@@ -83,7 +82,6 @@ class WikiArtAPIClient:
             "10": "mythological-painting",
         }
 
-        # Real WikiArt styles (from dataset)
         self.styles = {
             "1": "impressionism",
             "2": "post-impressionism",
