@@ -1,9 +1,18 @@
 {
+  "project_title": "Sistema de Recomenda\u00e7\u00e3o de Arte",
+  "student": "Gabriel Brito de Fran\u00e7a - 211020867",
   "n_artworks": 10000,
   "n_features": 48,
   "vocabulary_size": 48,
   "unique_artists": 24,
   "unique_genres": 11,
   "unique_styles": 16,
-  "model_version": "1.0"
+  "model_version": "1.0",
+  "characteristics": {
+    "1": "artist",
+    "2": "style",
+    "3": "genre"
+  },
+  "rating_pattern": "[0,1] - Binary Like/Dislike",
+  "algorithm": "TF-IDF + Cosine Similarity"
 }

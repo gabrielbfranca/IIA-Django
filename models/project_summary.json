@@ -1,0 +1,27 @@
+{
+  "project_info": {
+    "description": "Sistema de Recomenda\u00e7\u00e3o de Arte - Projeto Acad\u00eamico",
+    "student": "Gabriel Brito de Fran\u00e7a - 211020867",
+    "dataset": "WikiArt (10.000+ obras)",
+    "characteristics": [
+      "artist",
+      "style",
+      "genre"
+    ],
+    "rating_pattern": "[0,1] - Binary Like/Dislike"
+  },
+  "utility_matrix_stats": {
+    "total_interactions": 600,
+    "unique_users": 54,
+    "unique_artworks": 580,
+    "like_rate": 0.5433333333333333,
+    "academic_requirement": "500+ lines",
+    "requirement_met": true
+  },
+  "files_generated": {
+    "utility_matrix.csv": "600 interactions",
+    "utility_matrix_pivot.csv": "54x580 matrix",
+    "user_statistics.csv": "54 users",
+    "artwork_statistics.csv": "580 artworks"
+  }
+}
